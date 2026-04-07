@@ -3,10 +3,10 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/circlecis/refs/heads/main/apis.yml
 name: CircleCI
 tags:
-  - Pipelines
-  - Continuous Integration
-  - Continuous Deployment
   - CI/CD
+  - Continuous Deployment
+  - Continuous Integration
+  - Pipelines
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
