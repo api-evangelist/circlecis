@@ -33,6 +33,8 @@ apis:
     properties:
       - url: https://circleci.com/docs/api/v2/
         type: Documentation
+      - url: openapi/circlecis-openapi.yml
+        type: OpenAPI
     description: >-
       The CircleCI REST API v2 provides programmatic access for managing
       pipelines, projects, workflows, jobs, contexts, and users.
