@@ -81,6 +81,16 @@ common:
     url: https://support.circleci.com/
   - type: Status
     url: https://status.circleci.com/
+  - type: Integrations
+    url: https://circleci.com/integrations/
+integrations:
+  - name: GitHub
+  - name: GitLab
+  - name: Bitbucket
+  - name: AWS
+  - name: GCP
+  - name: Azure
+  - name: Kubernetes
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
