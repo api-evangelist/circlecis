@@ -73,13 +73,13 @@ common:
     url: https://circleci.com/docs/
   - type: Canonical Profile
     url: https://github.com/api-evangelist/circleci
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://circleci.com/privacy/
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://circleci.com/terms-of-service/
   - type: Support
     url: https://support.circleci.com/
-  - type: Status
+  - type: StatusPage
     url: https://status.circleci.com/
   - type: Integrations
     url: https://circleci.com/integrations/
