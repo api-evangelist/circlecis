@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CircleCI REST API V2 — User
+  description: 'CircleCI REST API V2 — User. 1 operations. Lead operation: Get current user. Self-contained Naftiko capability
+    covering one Circlecis business surface.'
+  tags:
+  - Circlecis
+  - User
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CIRCLECIS_API_KEY: CIRCLECIS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: circlecis-user
+    baseUri: https://circleci.com/api/v2
+    description: CircleCI REST API V2 — User business capability. Self-contained, no shared references.
+    resources:
+    - name: me
+      path: /me
+      operations:
+      - name: getcurrentuser
+        method: GET
+        description: Get current user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Circle-Token
+      value: '{{env.CIRCLECIS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: circlecis-user-rest
+    port: 8080
+    description: REST adapter for CircleCI REST API V2 — User. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/me
+      name: me
+      description: REST surface for me.
+      operations:
+      - method: GET
+        name: getcurrentuser
+        description: Get current user
+        call: circlecis-user.getcurrentuser
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: circlecis-user-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CircleCI REST API V2 — User. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-current-user
+      description: Get current user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: circlecis-user.getcurrentuser
+      outputParameters:
+      - type: object
+        mapping: $.

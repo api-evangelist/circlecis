@@ -1,0 +1,128 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CircleCI REST API V2 — Job
+  description: 'CircleCI REST API V2 — Job. 2 operations. Lead operation: Cancel a job. Self-contained Naftiko capability
+    covering one Circlecis business surface.'
+  tags:
+  - Circlecis
+  - Job
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CIRCLECIS_API_KEY: CIRCLECIS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: circlecis-job
+    baseUri: https://circleci.com/api/v2
+    description: CircleCI REST API V2 — Job business capability. Self-contained, no shared references.
+    resources:
+    - name: jobs-job-id-cancel
+      path: /jobs/{job-id}/cancel
+      operations:
+      - name: canceljob
+        method: POST
+        description: Cancel a job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: job-id
+          in: path
+          type: string
+          required: true
+    - name: project-project-slug-job-job-number
+      path: /project/{project-slug}/job/{job-number}
+      operations:
+      - name: getjob
+        method: GET
+        description: Get job by number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project-slug
+          in: path
+          type: string
+          required: true
+        - name: job-number
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Circle-Token
+      value: '{{env.CIRCLECIS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: circlecis-job-rest
+    port: 8080
+    description: REST adapter for CircleCI REST API V2 — Job. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/jobs/{job-id}/cancel
+      name: jobs-job-id-cancel
+      description: REST surface for jobs-job-id-cancel.
+      operations:
+      - method: POST
+        name: canceljob
+        description: Cancel a job
+        call: circlecis-job.canceljob
+        with:
+          job-id: rest.job-id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{project-slug}/job/{job-number}
+      name: project-project-slug-job-job-number
+      description: REST surface for project-project-slug-job-job-number.
+      operations:
+      - method: GET
+        name: getjob
+        description: Get job by number
+        call: circlecis-job.getjob
+        with:
+          project-slug: rest.project-slug
+          job-number: rest.job-number
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: circlecis-job-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CircleCI REST API V2 — Job. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: cancel-job
+      description: Cancel a job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: circlecis-job.canceljob
+      with:
+        job-id: tools.job-id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-job-number
+      description: Get job by number
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: circlecis-job.getjob
+      with:
+        project-slug: tools.project-slug
+        job-number: tools.job-number
+      outputParameters:
+      - type: object
+        mapping: $.

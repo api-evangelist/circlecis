@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CircleCI REST API V2 — Workflow
+  description: 'CircleCI REST API V2 — Workflow. 1 operations. Lead operation: Cancel a workflow. Self-contained Naftiko capability
+    covering one Circlecis business surface.'
+  tags:
+  - Circlecis
+  - Workflow
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CIRCLECIS_API_KEY: CIRCLECIS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: circlecis-workflow
+    baseUri: https://circleci.com/api/v2
+    description: CircleCI REST API V2 — Workflow business capability. Self-contained, no shared references.
+    resources:
+    - name: workflow-id-cancel
+      path: /workflow/{id}/cancel
+      operations:
+      - name: cancelworkflow
+        method: POST
+        description: Cancel a workflow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Circle-Token
+      value: '{{env.CIRCLECIS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: circlecis-workflow-rest
+    port: 8080
+    description: REST adapter for CircleCI REST API V2 — Workflow. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/workflow/{id}/cancel
+      name: workflow-id-cancel
+      description: REST surface for workflow-id-cancel.
+      operations:
+      - method: POST
+        name: cancelworkflow
+        description: Cancel a workflow
+        call: circlecis-workflow.cancelworkflow
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: circlecis-workflow-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CircleCI REST API V2 — Workflow. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: cancel-workflow
+      description: Cancel a workflow
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: circlecis-workflow.cancelworkflow
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

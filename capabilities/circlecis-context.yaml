@@ -1,0 +1,120 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CircleCI REST API V2 — Context
+  description: 'CircleCI REST API V2 — Context. 2 operations. Lead operation: List contexts. Self-contained Naftiko capability
+    covering one Circlecis business surface.'
+  tags:
+  - Circlecis
+  - Context
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CIRCLECIS_API_KEY: CIRCLECIS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: circlecis-context
+    baseUri: https://circleci.com/api/v2
+    description: CircleCI REST API V2 — Context business capability. Self-contained, no shared references.
+    resources:
+    - name: context
+      path: /context
+      operations:
+      - name: listcontexts
+        method: GET
+        description: List contexts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: owner-id
+          in: query
+          type: string
+        - name: page-token
+          in: query
+          type: string
+      - name: createcontext
+        method: POST
+        description: Create a context
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Circle-Token
+      value: '{{env.CIRCLECIS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: circlecis-context-rest
+    port: 8080
+    description: REST adapter for CircleCI REST API V2 — Context. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/context
+      name: context
+      description: REST surface for context.
+      operations:
+      - method: GET
+        name: listcontexts
+        description: List contexts
+        call: circlecis-context.listcontexts
+        with:
+          owner-id: rest.owner-id
+          page-token: rest.page-token
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcontext
+        description: Create a context
+        call: circlecis-context.createcontext
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: circlecis-context-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CircleCI REST API V2 — Context. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-contexts
+      description: List contexts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: circlecis-context.listcontexts
+      with:
+        owner-id: tools.owner-id
+        page-token: tools.page-token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-context
+      description: Create a context
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: circlecis-context.createcontext
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CircleCI REST API V2 — Project
+  description: 'CircleCI REST API V2 — Project. 1 operations. Lead operation: Trigger a new pipeline. Self-contained Naftiko
+    capability covering one Circlecis business surface.'
+  tags:
+  - Circlecis
+  - Project
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CIRCLECIS_API_KEY: CIRCLECIS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: circlecis-project
+    baseUri: https://circleci.com/api/v2
+    description: CircleCI REST API V2 — Project business capability. Self-contained, no shared references.
+    resources:
+    - name: project-project-slug-pipeline
+      path: /project/{project-slug}/pipeline
+      operations:
+      - name: triggerpipeline
+        method: POST
+        description: Trigger a new pipeline
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project-slug
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Circle-Token
+      value: '{{env.CIRCLECIS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: circlecis-project-rest
+    port: 8080
+    description: REST adapter for CircleCI REST API V2 — Project. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/project/{project-slug}/pipeline
+      name: project-project-slug-pipeline
+      description: REST surface for project-project-slug-pipeline.
+      operations:
+      - method: POST
+        name: triggerpipeline
+        description: Trigger a new pipeline
+        call: circlecis-project.triggerpipeline
+        with:
+          project-slug: rest.project-slug
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: circlecis-project-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CircleCI REST API V2 — Project. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: trigger-new-pipeline
+      description: Trigger a new pipeline
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: circlecis-project.triggerpipeline
+      with:
+        project-slug: tools.project-slug
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
