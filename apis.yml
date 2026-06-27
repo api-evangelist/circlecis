@@ -78,7 +78,7 @@ common:
     url: https://status.circleci.com/
   - type: Integrations
     url: https://circleci.com/integrations/
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://circleci.com/llms.txt
 integrations:
   - name: GitHub
