@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/circlecis-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: apiTokenAuth
+  type: apiKey
+  in: header
+  parameter: Circle-Token
+  description: CircleCI personal API token.
+  sources:
+  - openapi/circlecis-openapi.yml
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic with API token as username.
+  sources:
+  - openapi/circlecis-openapi.yml
