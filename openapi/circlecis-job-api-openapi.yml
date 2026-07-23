@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: CircleCI REST API V2 Context Job API
+  description: The CircleCI REST API v2 provides programmatic access for managing pipelines, projects, workflows, jobs, contexts, and users on the CircleCI continuous integration and delivery platform.
+  version: 2.0.0
+  contact:
+    name: CircleCI Support
+    url: https://support.circleci.com/
+  license:
+    name: Proprietary
+    url: https://circleci.com/legal/terms-of-service/
+servers:
+- url: https://circleci.com/api/v2
+  description: CircleCI API v2
+security:
+- apiTokenAuth: []
+- basicAuth: []
+tags:
+- name: Job
+  description: Job inspection and cancellation.
+paths:
+  /project/{project-slug}/job/{job-number}:
+    get:
+      operationId: getJob
+      summary: Get job by number
+      description: Retrieve job details and metadata.
+      tags:
+      - Job
+      parameters:
+      - name: project-slug
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: job-number
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /jobs/{job-id}/cancel:
+    post:
+      operationId: cancelJob
+      summary: Cancel a job
+      description: Cancel a job by its unique ID.
+      tags:
+      - Job
+      parameters:
+      - name: job-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Job cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+components:
+  schemas:
+    GenericResponse:
+      type: object
+      additionalProperties: true
+  securitySchemes:
+    apiTokenAuth:
+      type: apiKey
+      in: header
+      name: Circle-Token
+      description: CircleCI personal API token.
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic with API token as username.
+x-generated-from: https://circleci.com/docs/api/v2/
+x-generated-by: claude-crawl-2026-05-08

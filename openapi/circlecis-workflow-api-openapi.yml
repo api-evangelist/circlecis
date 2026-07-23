@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: CircleCI REST API V2 Context Workflow API
+  description: The CircleCI REST API v2 provides programmatic access for managing pipelines, projects, workflows, jobs, contexts, and users on the CircleCI continuous integration and delivery platform.
+  version: 2.0.0
+  contact:
+    name: CircleCI Support
+    url: https://support.circleci.com/
+  license:
+    name: Proprietary
+    url: https://circleci.com/legal/terms-of-service/
+servers:
+- url: https://circleci.com/api/v2
+  description: CircleCI API v2
+security:
+- apiTokenAuth: []
+- basicAuth: []
+tags:
+- name: Workflow
+  description: Workflow inspection and cancellation.
+paths:
+  /workflow/{id}/cancel:
+    post:
+      operationId: cancelWorkflow
+      summary: Cancel a workflow
+      description: Cancels a running workflow.
+      tags:
+      - Workflow
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Workflow cancellation accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+components:
+  schemas:
+    GenericResponse:
+      type: object
+      additionalProperties: true
+  securitySchemes:
+    apiTokenAuth:
+      type: apiKey
+      in: header
+      name: Circle-Token
+      description: CircleCI personal API token.
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic with API token as username.
+x-generated-from: https://circleci.com/docs/api/v2/
+x-generated-by: claude-crawl-2026-05-08
