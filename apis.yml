@@ -9,7 +9,20 @@ tags:
   - Pipelines
   - Workflows
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/circlecis.png
 access: 3rd-Party
 created: '2025-01-08'
 modified: '2026-05-19'
@@ -20,43 +33,97 @@ description: >-
   continue to resolve. The full set of REST, runner, webhook, and orbs APIs is profiled in the `circleci` repository at
   https://github.com/api-evangelist/circleci.
 apis:
-  - aid: circlecis:rest-api-v2
-    name: CircleCI REST API V2
-    tags:
-      - CI/CD
-      - Pipelines
-      - Workflows
-    humanURL: https://circleci.com/docs/api/v2/
-    properties:
-      - url: https://circleci.com/docs/api/v2/
-        type: Documentation
-      - url: openapi/circlecis-openapi.yml
-        type: OpenAPI
-    description: >-
-      The CircleCI REST API v2 provides programmatic access for managing pipelines, projects, workflows, jobs, contexts,
-      and users.
-  - aid: circlecis:runner-api
-    name: CircleCI Self-Hosted Runner API
-    tags:
-      - CI/CD
-      - Runners
-      - Self-Hosted
-    humanURL: https://circleci.com/docs/runner-api/
-    properties:
-      - url: https://circleci.com/docs/runner-api/
-        type: Documentation
-    description: The CircleCI Runner API is used for the management and execution of self-hosted runner jobs.
-  - aid: circlecis:webhooks
-    name: CircleCI Webhooks
-    tags:
-      - CI/CD
-      - Events
-      - Webhooks
-    humanURL: https://circleci.com/docs/webhooks/
-    properties:
-      - url: https://circleci.com/docs/webhooks/
-        type: Documentation
-    description: Real-time event notifications for pipeline, workflow, and job lifecycle events delivered via HTTP callbacks.
+- aid: circlecis:runner-api
+  name: CircleCI Self-Hosted Runner API
+  tags:
+  - CI/CD
+  - Runners
+  - Self-Hosted
+  humanURL: https://circleci.com/docs/runner-api/
+  properties:
+  - url: https://circleci.com/docs/runner-api/
+    type: Documentation
+  description: >-
+    The CircleCI Runner API is used for the management and execution of self-hosted runner jobs.
+- aid: circlecis:webhooks
+  name: CircleCI Webhooks
+  tags:
+  - CI/CD
+  - Events
+  - Webhooks
+  humanURL: https://circleci.com/docs/webhooks/
+  properties:
+  - url: https://circleci.com/docs/webhooks/
+    type: Documentation
+  description: >-
+    Real-time event notifications for pipeline, workflow, and job lifecycle events delivered via HTTP
+    callbacks.
+- aid: circlecis:circlecis-context-api
+  name: CircleCI Context API
+  description: Operations for organization contexts.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - Context
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-context-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
+- aid: circlecis:circlecis-job-api
+  name: CircleCI Job API
+  description: Job inspection and cancellation.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - Job
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-job-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
+- aid: circlecis:circlecis-pipeline-api
+  name: CircleCI Pipeline API
+  description: Pipeline trigger and inspection.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - Pipeline
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-pipeline-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
+- aid: circlecis:circlecis-project-api
+  name: CircleCI Project API
+  description: Project-scoped operations.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - Project
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-project-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
+- aid: circlecis:circlecis-user-api
+  name: CircleCI User API
+  description: Current user information.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-user-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
+- aid: circlecis:circlecis-workflow-api
+  name: CircleCI Workflow API
+  description: Workflow inspection and cancellation.
+  humanURL: https://circleci.com/docs/api/v2/
+  tags:
+  - Workflow
+  properties:
+  - type: OpenAPI
+    url: openapi/circlecis-workflow-api-openapi.yml
+  - type: Documentation
+    url: https://circleci.com/docs/api/v2/
 common:
   - type: LinkedIn
     url: https://www.linkedin.com/company/circleci
