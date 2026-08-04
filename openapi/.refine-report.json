@@ -1,0 +1,24 @@
+{
+  "provider": "circlecis",
+  "sources": [
+    "circlecis-context-api-openapi.yml",
+    "circlecis-job-api-openapi.yml",
+    "circlecis-pipeline-api-openapi.yml",
+    "circlecis-project-api-openapi.yml",
+    "circlecis-user-api-openapi.yml",
+    "circlecis-workflow-api-openapi.yml"
+  ],
+  "outputs": [
+    "circlecis-context-api-openapi.yml",
+    "circlecis-job-api-openapi.yml",
+    "circlecis-pipeline-api-openapi.yml",
+    "circlecis-project-api-openapi.yml",
+    "circlecis-user-api-openapi.yml",
+    "circlecis-workflow-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
