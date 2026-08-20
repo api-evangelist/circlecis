@@ -49,6 +49,10 @@ apis:
   name: CircleCI Webhooks
   tags:
   - CI/CD
+  - Event
+  - Webhook
+  tags_raw:
+  - CI/CD
   - Events
   - Webhooks
   humanURL: https://circleci.com/docs/webhooks/
@@ -118,6 +122,8 @@ apis:
   description: Workflow inspection and cancellation.
   humanURL: https://circleci.com/docs/api/v2/
   tags:
+  - Workflows
+  tags_raw:
   - Workflow
   properties:
   - type: OpenAPI
